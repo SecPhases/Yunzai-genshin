@@ -16,9 +16,6 @@ export class takeBirthdayPhoto extends plugin {
         }
       ]
     })
-    this.button = segment.button([
-      { text: "留影叙佳期", input: "#留影叙佳期" },
-    ])
   }
 
   async birthdaystar(e) {
@@ -26,9 +23,7 @@ export class takeBirthdayPhoto extends plugin {
     if (!uid) return false
     let ck = await MysInfo.checkUidBing(uid, this.e)
     if (!ck) {
-      e.reply(['请先绑定ck再使用本功能哦~', segment.button([
-        { text: "Cookie帮助", callback: "#Cookie帮助" },
-      ])], true)
+      e.reply(['请先绑定ck再使用本功能哦~'], true)
       return true
     }
 
@@ -37,18 +32,18 @@ export class takeBirthdayPhoto extends plugin {
 
     const e_hk4e_token = await this.getEHK4EToken(ck.ck, uid)
     if (!e_hk4e_token) {
-      e.reply(['获取e-hk4e_token失败，请刷新ck后再试~', this.button], true)
+      e.reply(['获取e-hk4e_token失败，请刷新ck后再试~'], true)
       return true
     }
 
     const birthday_star_list = await this.getBirthdayStar(uid, e_hk4e_token, ck.ck)
     if (!birthday_star_list) {
-      e.reply(['获取生日角色失败，请稍后再试~', this.button], true)
+      e.reply(['获取生日角色失败，请稍后再试~'], true)
       return true
     }
 
     if (birthday_star_list.length === 0) {
-      e.reply(['今天没有生日角色哦~', this.button], true)
+      e.reply(['今天没有生日角色哦~'], true)
       return true
     }
 
@@ -58,14 +53,14 @@ export class takeBirthdayPhoto extends plugin {
         await e.reply(segment.image(role.take_picture))
         const message = await this.getBirthdayStarImg(uid, e_hk4e_token, ck.ck, role.role_id)
         if (message != 'success') {
-          await e.reply([message, this.button])
+          await e.reply([message,])
           return true
         } else {
           await e.reply(`获取${role.name}的图片成功~`, true)
         }
       }
     } catch (error) {
-      await e.reply([`获取角色留影叙佳期图片失败，可能是ck失效...`, this.button], true)
+      await e.reply([`获取角色留影叙佳期图片失败，可能是ck失效...`], true)
       logger.error(error)
     }
 

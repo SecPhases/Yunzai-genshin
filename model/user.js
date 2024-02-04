@@ -136,19 +136,6 @@ export default class User extends base {
         '【#练度统计】技能统计列表',
         '【#面板】【#更新面板】面板信息'
       )
-      button.push([
-        { text: '#uid', callback: '#uid' },
-        { text: '#我的ck', callback: '#我的ck' },
-        { text: '#删除ck', callback: '#删除ck' }
-      ], [
-        { text: '#体力', callback: '#体力' },
-        { text: '#原石', callback: '#原石' },
-        { text: '#原石统计', callback: '#原石统计' }
-      ], [
-        { text: '#练度统计', callback: '#练度统计' },
-        { text: '#面板', callback: '#面板' },
-        { text: '#更新面板', callback: '#更新面板' }
-      ])
     }
     if (mys.hasGame('sr')) {
       msg.push(
@@ -158,16 +145,8 @@ export default class User extends base {
         '【*体力】体力信息',
         '【*面板】【*更新面板】面板信息'
       )
-      button.push([
-        { text: '*uid', callback: '*uid' },
-        { text: '*删除ck', callback: '*删除ck' },
-        { text: '*体力', callback: '*体力' }
-      ], [
-        { text: '*面板', callback: '*面板' },
-        { text: '*更新面板', callback: '*更新面板' }
-      ])
     }
-    msg = await common.makeForwardMsg(this.e, [[msg.join('\n'), segment.button(...button)]], '绑定成功：使用命令说明')
+    msg = await common.makeForwardMsg(this.e, [[msg.join('\n')]], '绑定成功：使用命令说明')
     await this.e.reply(msg)
   }
 
@@ -210,16 +189,12 @@ export default class User extends base {
     let game = this.e
     let uidList = user.getUidList(game)
     if (index > uidList.length) {
-      return await this.e.reply(['uid序号输入错误', segment.button([
-        { text: '删除uid', input: '#删除uid' }
-      ])])
+      return await this.e.reply(['uid序号输入错误'])
     }
     index = Number(index) - 1
     let uidObj = uidList[index]
     if (uidObj.type === 'ck') {
-      return await this.e.reply(['CK对应UID无法直接删除，请通过【#删除ck】命令来删除', segment.button([
-        { text: '删除ck', callback: '#删除ck' }
-      ])])
+      return await this.e.reply(['CK对应UID无法直接删除，请通过【#删除ck】命令来删除'])
     }
     await user.delRegUid(uidObj.uid, game)
     return await this.showUid()
@@ -274,26 +249,7 @@ export default class User extends base {
         }
       })
     })
-    return this.e.reply([await this.e.runtime.render('genshin', 'html/user/uid-list', { uids }, { retType: 'base64' }), segment.button([
-      { text: '绑定UID', input: '#绑定uid' },
-      { text: '切换UID', input: '#uid' },
-      { text: '删除UID', input: '#删除uid' }
-    ], [
-      { text: '角色', callback: '#角色' },
-      { text: '探索', callback: '#探索' },
-      { text: '武器', callback: '#武器' },
-      { text: '深渊', callback: '#深渊' }
-    ], [
-      { text: '统计', callback: '#练度统计' },
-      { text: '面板', callback: '#面板' },
-      { text: '体力', callback: '#体力' },
-      { text: '原石', callback: '#原石' }
-    ], [
-      { text: '留影', callback: '#留影叙佳期' },
-      { text: '七圣', callback: '#七圣召唤查询牌组' },
-      { text: '抽卡', callback: '#抽卡记录' },
-      { text: '充值', callback: '#充值记录' }
-    ])])
+    return this.e.reply([await this.e.runtime.render('genshin', 'html/user/uid-list', { uids }, { retType: 'base64' })])
   }
 
   /** 切换uid */
@@ -302,9 +258,7 @@ export default class User extends base {
     let game = this.e
     let uidList = user.getUidList(game)
     if (index > uidList.length) {
-      return await this.e.reply(['uid序号输入错误', segment.button([
-        { text: '切换uid', input: '#uid' }
-      ])])
+      return await this.e.reply(['uid序号输入错误'])
     }
     index = Number(index) - 1
     user.setMainUid(index, game)
@@ -499,9 +453,7 @@ export default class User extends base {
   async myCk () {
     let user = await this.user()
     if (!user.hasCk) {
-      this.e.reply(['当前尚未绑定Cookie', segment.button([
-        { text: '帮助', input: '#Cookie帮助' }
-      ])])
+      this.e.reply(['当前尚未绑定Cookie'])
     }
     let mys = user.getMysUser(this.e)
     if (mys) {
@@ -539,11 +491,7 @@ export default class User extends base {
       cks.push(`当前生效uid：${uid}\n通过【#uid】命令可查看并切换UID`)
     }
 
-    await this.e.reply([cks.join('\n----\n'), segment.button([
-      { text: '绑定UID', input: '#绑定uid' },
-      { text: '切换UID', input: '#uid' },
-      { text: '删除UID', input: '#删除uid' }
-    ])], false, { at: true })
+    await this.e.reply([cks.join('\n----\n')], false, { at: true })
   }
 
   async userAdmin () {

@@ -113,18 +113,14 @@ export class strategy extends plugin {
     }
 
     this.sfPath = `${this.path}/${group}/${role.name}.jpg`
-    let button = []
-    for (const i of [1, 2, 3, 4, 5, 6, 7])
-      button.push({ text: String(i), callback: `#${role.name}攻略${i}` })
-    button = segment.button(button)
 
     if (fs.existsSync(this.sfPath) && !isUpdate) {
-      await this.e.reply([segment.image(`file://${this.sfPath}`), button])
+      await this.e.reply([segment.image(`file://${this.sfPath}`)])
       return
     }
 
     if (await this.getImg(role.name, group)) {
-      await this.e.reply([segment.image(`file://${this.sfPath}`), button])
+      await this.e.reply([segment.image(`file://${this.sfPath}`)])
     }
   }
 
@@ -192,9 +188,7 @@ export class strategy extends plugin {
     }
 
     if (!url) {
-      this.e.reply([`暂无${name}攻略（${this.source[group - 1]}）\n请尝试其他的攻略来源查询\n#攻略帮助，查看说明`, segment.button([
-        { text: "攻略帮助", callback: "#攻略帮助" },
-      ])])
+      this.e.reply([`暂无${name}攻略（${this.source[group - 1]}）\n请尝试其他的攻略来源查询\n#攻略帮助，查看说明`,])
       return false
     }
 

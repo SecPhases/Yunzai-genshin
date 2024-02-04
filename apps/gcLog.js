@@ -48,16 +48,7 @@ export class gcLog extends plugin {
     this.androidUrl = "https://docs.qq.com/doc/DUWpYaXlvSklmVXlX"
     Object.defineProperty(this, "button", { get() {
       this.prefix = this.e?.isSr ? "*" : "#"
-      return segment.button([
-        { text: "角色记录", callback: `${this.prefix}角色记录` },
-        { text: "角色统计", callback: `${this.prefix}角色统计` },
-      ],[
-        { text: "武器记录", callback: `${this.prefix}武器记录` },
-        { text: "武器统计", callback: `${this.prefix}武器统计` },
-      ],[
-        { text: "常驻记录", callback: `${this.prefix}常驻记录` },
-        { text: "常驻统计", callback: `${this.prefix}常驻统计` },
-      ])
+      return
     }})
   }
 
@@ -104,7 +95,7 @@ export class gcLog extends plugin {
     if (this.e.isAll) {
       name = `html/gacha/gacha-all-log`
     }
-    this.reply([await this.renderImg("genshin", name, data, { retType: "base64" }), this.button])
+    this.reply([await this.renderImg("genshin", name, data, { retType: "base64" })])
   }
 
   /** 导出记录 */
@@ -127,11 +118,7 @@ export class gcLog extends plugin {
   }
 
   help() {
-    this.e.reply([segment.image(`file://${_path}/resources/logHelp/记录帮助.png`), segment.button([
-      { text: "电脑", callback: "#电脑帮助" },
-      { text: "安卓", callback: "#安卓帮助" },
-      { text: "苹果", callback: "#苹果帮助" },
-    ])])
+    this.e.reply([segment.image(`file://${_path}/resources/logHelp/记录帮助.png`)])
   }
 
   helpPort() {
@@ -150,6 +137,6 @@ export class gcLog extends plugin {
     let data = await new LogCount(this.e).count()
     if (!data) return
 
-    this.reply([await this.renderImg("genshin", `html/gacha/log-count`, data, { retType: "base64" }), this.button])
+    this.reply([await this.renderImg("genshin", `html/gacha/log-count`, data, { retType: "base64" })])
   }
 }
