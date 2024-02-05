@@ -64,7 +64,7 @@ export class gcLog extends plugin {
   accept() {
     if (this.e.file) {
       let name = this.e.file?.name
-      if (/(.*)[1-9][0-9]{8}(.*).json/ig.test(name)) {
+      if (/(.*)([1-9]|18)[0-9]{8}(.*).json/ig.test(name)) {
         this.e.msg = "#json文件导入记录"
         return true
       }
